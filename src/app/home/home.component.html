@@ -116,8 +116,8 @@
     </svg>
   </div>
 
-  <button class="btn btn-primary" (click)="toggleInfo()">
+  <button class="btn btn-primary" (click)="showAdditionalInfo()">
     Show Additional Info
   </button>
-  <app-additional-info class="content" *ngIf="showInfo"></app-additional-info>
+  <ng-container #container></ng-container>
 </div>
