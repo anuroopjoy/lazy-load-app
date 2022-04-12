@@ -7,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
   title = 'lazy-load-app';
+  showInfo = false;
   constructor() {}
 
   ngOnInit(): void {}
+  toggleInfo() {
+    this.showInfo = !this.showInfo;
+  }
 }
