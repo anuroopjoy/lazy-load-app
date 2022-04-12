@@ -12,7 +12,7 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    component: HomeComponent,
+    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
   },
   {
     path: '',
@@ -21,12 +21,12 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '/login'
+    redirectTo: '/login',
   },
 ];
 
 @NgModule({
-  declarations: [LoginComponent, HomeComponent],
+  declarations: [LoginComponent],
   imports: [
     RouterModule.forRoot(routes, { useHash: true }),
     CommonModule,
