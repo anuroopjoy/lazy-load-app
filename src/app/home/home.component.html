@@ -119,5 +119,5 @@
   <button class="btn btn-primary" (click)="showAdditionalInfo()">
     Show Additional Info
   </button>
-  <ng-container #container></ng-container>
+  <ng-container *ngIf="showInfo" [appLazyLoader]="lazyModuleConfig"></ng-container>
 </div>

@@ -1,12 +1,5 @@
-import {
-  // Compiler,
-  Component,
-  Injector,
-  OnInit,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
-import { LoaderService } from '../loader.service';
+import { Component, OnInit } from '@angular/core';
+import { Loader } from '../loader/loader.interface';
 
 @Component({
   selector: 'app-home',
@@ -16,29 +9,21 @@ import { LoaderService } from '../loader.service';
 export class HomeComponent implements OnInit {
   title = 'lazy-load-app';
   showInfo = false;
-  @ViewChild('container', { read: ViewContainerRef })
-  container!: ViewContainerRef;
-  constructor(
-    private injector: Injector,
-    private loader: LoaderService // private compiler: Compiler
-  ) {}
+
+  lazyModuleConfig: Loader = {
+    loader: () => import('../additional-info/additional-info.module'),
+    module: 'AdditionalInfoModule',
+  };
+  // lazyModuleConfig: Loader = {
+  //   loader: () => import('../additional-info/additional-info.component'),
+  //   component: 'AdditionalInfoComponent',
+  // };
+
+  constructor() {}
 
   ngOnInit(): void {}
+
   showAdditionalInfo() {
-    if (!this.showInfo) {
-      // this.loader.loadComponent({
-      //   loader: () => import('../additional-info/additional-info.component'),
-      //   component: 'AdditionalInfoComponent',
-      //   container: this.container,
-      // });
-      this.loader.loadModule({
-        loader: () => import('../additional-info/additional-info.module'),
-        module: 'AdditionalInfoModule',
-        container: this.container,
-        injector: this.injector,
-        // compiler: this.compiler,
-      });
-    }
     this.showInfo = true;
   }
 }
