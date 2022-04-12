@@ -1,12 +1,12 @@
 import {
-  Compiler,
+  // Compiler,
   Component,
-  createNgModuleRef,
   Injector,
   OnInit,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { LoaderService } from '../loader.service';
 
 @Component({
   selector: 'app-home',
@@ -18,23 +18,25 @@ export class HomeComponent implements OnInit {
   showInfo = false;
   @ViewChild('container', { read: ViewContainerRef })
   container!: ViewContainerRef;
-  constructor(private injector: Injector) // , private compiler: Compiler
-  {}
+  constructor(
+    private injector: Injector,
+    private loader: LoaderService // private compiler: Compiler
+  ) {}
 
   ngOnInit(): void {}
   showAdditionalInfo() {
     if (!this.showInfo) {
-      // import('../additional-info/additional-info.component').then((module) => {
-      //   const component = module['AdditionalInfoComponent'];
-      //   this.container.createComponent(component);
+      // this.loader.loadComponent({
+      //   loader: () => import('../additional-info/additional-info.component'),
+      //   component: 'AdditionalInfoComponent',
+      //   container: this.container,
       // });
-      import('../additional-info/additional-info.module').then((module) => {
-        const lazymodule = module['AdditionalInfoModule'];
-        const moduleRef = createNgModuleRef(lazymodule, this.injector);
-        // const moduleFactory = this.compiler.compileModuleSync(lazymodule);
-        // const moduleRef = moduleFactory.create(this.injector);
-        const component = moduleRef.instance.getComponent();
-        this.container.createComponent(component, { ngModuleRef: moduleRef });
+      this.loader.loadModule({
+        loader: () => import('../additional-info/additional-info.module'),
+        module: 'AdditionalInfoModule',
+        container: this.container,
+        injector: this.injector,
+        // compiler: this.compiler,
       });
     }
     this.showInfo = true;
